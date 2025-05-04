@@ -1,0 +1,30 @@
+import numpy as np
+from numpy.linalg import norm, matrix_rank
+
+# Lista com os valores de n que queremos testar
+n_values = [5, 15, 25]
+
+print(f"{'n':>4} | {'rank(A)':>7} | {'nullity(A)':>11} | {'||u||':>10} | {'||v||':>10} | {'||uv^T||':>10}")
+print("-" * 60)
+
+for n in n_values:
+    # Gerar vetores aleatórios u e v com dimensão (n, 1)
+    u = np.random.rand(n, 1)
+    v = np.random.rand(n, 1)
+
+    # Calcular a matriz A = u v^T
+    A = u @ v.T
+
+    # Calcular o posto (rank) da matriz A
+    rank_A = matrix_rank(A)
+
+    # Calcular norma 2 dos vetores e da matriz
+    norm_u = norm(u, 2)
+    norm_v = norm(v, 2)
+    norm_A = norm(A, 2)
+
+    # Nullity pela fórmula rank + nullity = n
+    nullity_A = n - rank_A
+
+    # Mostrar os resultados formatados
+    print(f"{n:>4} | {rank_A:>7} | {nullity_A:>11} | {norm_u:>10.3f} | {norm_v:>10.3f} | {norm_A:>10.3f}")
