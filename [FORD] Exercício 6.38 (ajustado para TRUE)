@@ -1,0 +1,34 @@
+import numpy as np
+
+# Matrizes fornecidas no exercício
+P1 = np.array([
+    [-0.40825,  0.43644,  0.80178],
+    [-0.8165 ,  0.21822, -0.53452],
+    [-0.40825, -0.87287,  0.26726]
+])
+
+P2 = np.array([
+    [-0.51450,  0.48507,  0.70711],
+    [-0.68599, -0.72761,  0.0000 ],
+    [ 0.51450, -0.48507,  0.70711]
+])
+
+def is_orthogonal_by_definition(P, tol=1e-4):
+    I = np.identity(P.shape[0])
+    return np.allclose(P.T @ P, I, atol=tol)
+
+def is_orthogonal_by_vectors(P, tol=1e-4):
+    cols = P.T
+    unit_lengths = np.allclose(np.linalg.norm(cols, axis=1), 1, atol=tol)
+    orthogonal_pairs = all(
+        np.isclose(np.dot(cols[i], cols[j]), 0, atol=tol)
+        for i in range(len(cols)) for j in range(i + 1, len(cols))
+    )
+    return unit_lengths and orthogonal_pairs
+
+# Resultados
+print("P1 ortogonal (definição)?", is_orthogonal_by_definition(P1))
+print("P1 ortogonal (vetores)?", is_orthogonal_by_vectors(P1))
+
+print("P2 ortogonal (definição)?", is_orthogonal_by_definition(P2))
+print("P2 ortogonal (vetores)?", is_orthogonal_by_vectors(P2))
